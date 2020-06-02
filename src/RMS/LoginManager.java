@@ -2,10 +2,13 @@ package RMS;
 
 import java.io.IOException;
 import java.util.logging.*;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
 
-/** Manages control flow for logins */
+/**
+ * Manages control flow for logins
+ */
 public class LoginManager {
     private Scene scene;
 
@@ -30,12 +33,17 @@ public class LoginManager {
         showLoginScreen();
     }
 
+    public void showMenuItem() {
+        loadMenuManagement();
+    }
+
     public void showLoginScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("login.fxml")
             );
             scene.setRoot((Parent) loader.load());
+
             LoginController controller =
                     loader.<LoginController>getController();
             controller.initManager(this);
@@ -47,14 +55,33 @@ public class LoginManager {
     private void showMainView() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("restaurant_management_system.fxml")
-            );
+                    getClass().getResource("restaurant_management_system.fxml"));
             scene.setRoot((Parent) loader.load());
+
             RMSController controller =
                     loader.<RMSController>getController();
-            controller.initialize(this);
+            controller.initRMSController(this);
+
+
         } catch (IOException ex) {
             Logger.getLogger(LoginManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void loadMenuManagement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("menu_item_management.fxml")
+            );
+            scene.setRoot((Parent) loader.load());
+
+            RMSController controller =
+                    loader.<RMSController>getController();
+            controller.initMenuItem(this);
+        } catch (IOException ex) {
+            Logger.getLogger(LoginManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
 }

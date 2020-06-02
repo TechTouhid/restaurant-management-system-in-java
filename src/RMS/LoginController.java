@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+
 /** Controls the login screen */
 public class LoginController {
     @FXML

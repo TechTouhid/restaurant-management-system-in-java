@@ -3,16 +3,37 @@ package RMS;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-/** Controls the main application screen */
+
+/**
+ * Controls the main application screen
+ */
 public class RMSController {
     @FXML
     private Button logoutButton;
-    public void initialize(final LoginManager loginManager) {
+    @FXML
+    public Button manageMenuItem;
+
+    public void initialize() {
+    }
+    public void initRMSController(final LoginManager loginManager) {
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent event) {
+            @Override
+            public void handle(ActionEvent event) {
                 loginManager.logout();
             }
         });
     }
+
+    public void initMenuItem(final LoginManager loginManager) {
+        manageMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                loginManager.showMenuItem();
+            }
+        });
+    }
 }
+
+

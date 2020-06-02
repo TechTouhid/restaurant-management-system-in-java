@@ -12,13 +12,13 @@
         <StackPane style="-fx-background-color: black" prefHeight="40">
             <GridPane hgap="10" vgap="10">
                 <Label prefHeight="40" prefWidth="800" text="Library Management System"
-                        style="-fx-text-fill: white" alignment="CENTER"
+                       style="-fx-text-fill: white" alignment="CENTER"
                        GridPane.rowIndex="0" GridPane.columnIndex="0">
                     <font>
                         <Font name="Times New Roman bold" size="20"/>
                     </font>
                 </Label>
-                <Button fx:id="logoutButton" alignment="BASELINE_RIGHT" defaultButton="true"
+                <Button id="loginButton" fx:id="logoutButton" alignment="BASELINE_RIGHT" defaultButton="true"
                         mnemonicParsing="false" text="Logout" StackPane.alignment="CENTER_RIGHT"
                         GridPane.rowIndex="0" GridPane.columnIndex="1" />
             </GridPane>
@@ -26,18 +26,16 @@
     </top>
 
     <left>
-        <StackPane>
-            <VBox>
-                <Button text="Show Menu" prefWidth="150" prefHeight="80"/>
-                <Button text="Order Management" prefWidth="150" prefHeight="90"/>
-                <Button text="Manage Employee" prefWidth="150" prefHeight="90"/>
-                <Button text="Manage Menu Item" prefWidth="150" prefHeight="90"
-                        fx:id="manageMenuItem" alignment="BASELINE_RIGHT"
-                        mnemonicParsing="false"  StackPane.alignment="CENTER_RIGHT"/>
-                <Button text="Show Total Sales" prefWidth="150" prefHeight="90"/>
-                <Button text="Show Payments" prefWidth="150" prefHeight="90"/>
-            </VBox>
-        </StackPane>
+        <VBox>
+            <Button text="Show Menu" prefWidth="150" prefHeight="80"/>
+            <Button text="Order Management" prefWidth="150" prefHeight="90"/>
+            <Button text="Manage Employee" prefWidth="150" prefHeight="90"/>
+            <Button text="Manage Menu Item" prefWidth="150" prefHeight="90"
+            fx:id="manageMenuItem" />
+            <Button text="Show Total Sales" prefWidth="150" prefHeight="90"/>
+            <Button text="Show Payments" prefWidth="150" prefHeight="90"/>
+
+        </VBox>
     </left>
 
     <center>
@@ -45,7 +43,7 @@
     </center>
 
     <bottom>
-        <Label prefHeight="60" prefWidth="900" text="Library Management System"
+        <Label prefHeight="60" prefWidth="900" text="Library Management System 22222"
                style="-fx-background-color: darkgray"
                alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0">
             <font>
