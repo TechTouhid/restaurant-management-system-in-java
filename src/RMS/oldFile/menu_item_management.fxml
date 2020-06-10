@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="RMS.oldFile.MenuItemManagementController">
+    <top>
+        <StackPane prefHeight="40" style="-fx-background-color: black">
+            <GridPane hgap="10" vgap="10">
+                <Label alignment="CENTER" prefHeight="40" prefWidth="800" style="-fx-text-fill: white" text="Library Management System" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <font>
+                        <Font name="Times New Roman bold" size="20" />
+                    </font>
+                </Label>
+                <Button id="loginButton" fx:id="logoutButton" alignment="BASELINE_RIGHT" defaultButton="true" mnemonicParsing="false" text="Logout" GridPane.columnIndex="1" GridPane.rowIndex="0" StackPane.alignment="CENTER_RIGHT" />
+            <columnConstraints>
+               <ColumnConstraints />
+               <ColumnConstraints />
+            </columnConstraints>
+            <rowConstraints>
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+        </StackPane>
+    </top>
+
+    <left>
+        <VBox>
+            <Button prefHeight="80" prefWidth="150" text="Show Menu" />
+            <Button prefHeight="90" prefWidth="150" text="Order Management" />
+            <Button prefHeight="90" prefWidth="150" text="Manage Employee" />
+            <Button fx:id="manageMenuItem" prefHeight="90" prefWidth="150" text="Manage Menu Item" />
+            <Button prefHeight="90" prefWidth="150" text="Show Total Sales" />
+            <Button prefHeight="90" prefWidth="150" text="Show Payments" />
+
+        </VBox>
+    </left>
+
+    <center>
+
+    </center>
+
+    <bottom>
+        <Label alignment="CENTER" prefHeight="60" prefWidth="900" style="-fx-background-color: darkgray;" text="Library Management System 22222" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <font>
+                <Font name="Times New Roman bold" size="20" />
+            </font>
+        </Label>
+    </bottom>
+</BorderPane>

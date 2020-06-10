@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="RMS.LoginController">
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="RMS.oldFile.LoginController">
     <children>
         <StackPane >
             <children>
