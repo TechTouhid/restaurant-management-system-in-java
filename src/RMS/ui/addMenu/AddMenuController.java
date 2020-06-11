@@ -1,6 +1,7 @@
 package RMS.ui.addMenu;
 
 import RMS.dataBase.DataBaseHandler;
+import RMS.ui.manageMenu.ManageMenuController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -17,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddMenuController implements Initializable {
-    ObservableList<String> listLeagues = FXCollections.observableArrayList(
+    ObservableList<String> listItems = FXCollections.observableArrayList(
             "Main", "Drink", "Alcohol", "Dessert");
 
     @FXML
@@ -32,7 +33,7 @@ public class AddMenuController implements Initializable {
     private JFXTextField menuPrice;
 
     @FXML
-    private JFXComboBox<String > menuType;
+    private JFXComboBox<String> menuType;
 
     @FXML
     private JFXButton saveMenuButton;
@@ -43,11 +44,13 @@ public class AddMenuController implements Initializable {
     @FXML
     private JFXButton clearButton;
 
+    private Boolean isInEditMode = Boolean.FALSE;
+
     DataBaseHandler dataBaseHandler;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        menuType.setItems(listLeagues);
+        menuType.setItems(listItems);
         dataBaseHandler = DataBaseHandler.getInstance();
     }
 
@@ -66,12 +69,16 @@ public class AddMenuController implements Initializable {
             return;
         }
 
+        if (isInEditMode) {
+            handelEditMenuItem();
+            return;
+        }
         String qu = "INSERT INTO menu_item (id, name, price, menu_type) VALUE (" +
                 "'" + mID + "'," +
                 "'" + mName + "'," +
                 "'" + mPrice + "'," +
                 "'" + mType + "'" +
-                 ")";
+                ")";
 
         if (dataBaseHandler.execAction(qu)) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -85,6 +92,7 @@ public class AddMenuController implements Initializable {
             alert.showAndWait();
         }
     }
+
     @FXML
     void clearFields(ActionEvent event) {
         menuID.clear();
@@ -92,10 +100,36 @@ public class AddMenuController implements Initializable {
         menuPrice.clear();
         menuType.getSelectionModel().clearSelection();
     }
+
     @FXML
     void cancelWindow(ActionEvent event) {
         Stage stage = (Stage) rootPane.getScene().getWindow();
         stage.close();
+    }
+
+    public void inflateUI(ManageMenuController.Menu menu) {
+        menuID.setText(menu.getId());
+        menuName.setText(menu.getName());
+        menuPrice.setText(menu.getPrice());
+        menuType.setValue(menu.getType());
+        menuID.setEditable(false);
+        isInEditMode = Boolean.TRUE;
+
+    }
+
+    private void handelEditMenuItem() {
+        ManageMenuController.Menu menu = new ManageMenuController.Menu(menuID.getText(), menuName.getText(), menuPrice.getText(), menuType.getSelectionModel().getSelectedItem());
+        if (dataBaseHandler.updateMenu(menu)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Menu updated");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setContentText("Failed");
+            alert.showAndWait();
+        }
     }
 
 }

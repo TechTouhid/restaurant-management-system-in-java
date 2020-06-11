@@ -1,5 +1,6 @@
 package RMS.dataBase;
 
+import RMS.ui.manageMenu.ManageMenuController;
 import javafx.scene.layout.Pane;
 
 import java.lang.invoke.SwitchPoint;
@@ -44,11 +45,11 @@ public class DataBaseHandler {
             stmt.execute("SET GLOBAL time_zone = '+6:00'");
 
             stmt.execute(" CREATE TABLE IF NOT EXISTS menu_item ("
-                    +" id varchar(255) PRIMARY key, \n"
-                    +" name varchar (255), \n"
-                    +" price varchar (255), \n"
-                    +" menu_type varchar (100) \n"
-                    +  ")");
+                    + " id varchar(255) PRIMARY key, \n"
+                    + " name varchar (255), \n"
+                    + " price varchar (255), \n"
+                    + " menu_type varchar (100) \n"
+                    + ")");
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error Occurred", JOptionPane.ERROR_MESSAGE);
@@ -81,5 +82,42 @@ public class DataBaseHandler {
             return false;
         }
     }
+
+    // Updating the menu
+    public boolean updateMenu(ManageMenuController.Menu menu) {
+        try {
+            String update = "UPDATE menu_item SET name = ?, price = ?, menu_type = ? WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, menu.getName());
+            stmt.setString(2, menu.getPrice());
+            stmt.setString(3, menu.getType());
+            stmt.setString(4, menu.getId());
+
+            int res = stmt.executeUpdate();
+            return (res > 0);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error Occurred", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception at execQuery:dataHandler" + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    // Delete the menu
+    public boolean DeleteMenu(ManageMenuController.Menu menu) {
+        try {
+            String update = "DELETE FROM menu_item WHERE id = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, menu.getId());
+            int res = stmt.executeUpdate();
+            System.out.println(res);
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error Occurred", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception at execQuery:dataHandler" + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
 }
 
