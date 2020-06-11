@@ -6,4 +6,8 @@ module restaurant_management_system_in_java {
     requires java.desktop;
     requires java.sql;
     opens RMS.ui.addMenu;
+
+    // List Menu
+    exports RMS.ui.listMenu to javafx.graphics, javafx.fxml;
+    opens RMS.ui.listMenu to javafx.fxml, javafx.base;
 }
