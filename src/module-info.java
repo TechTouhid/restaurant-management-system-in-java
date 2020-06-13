@@ -19,4 +19,7 @@ module restaurant_management_system_in_java {
     // add Order
     exports RMS.ui.addStaff to javafx.graphics, javafx.fxml;
     opens RMS.ui.addStaff to javafx.fxml, javafx.base;
+    // manage Stuff
+    exports RMS.ui.manageStaff to javafx.graphics, javafx.fxml;
+    opens RMS.ui.manageStaff to javafx.fxml, javafx.base;
 }

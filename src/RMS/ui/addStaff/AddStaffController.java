@@ -1,6 +1,8 @@
 package RMS.ui.addStaff;
 
 import RMS.dataBase.DataBaseHandler;
+import RMS.ui.manageMenu.ManageMenuController;
+import RMS.ui.manageStaff.ManageStaffController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -39,7 +41,7 @@ public class AddStaffController implements Initializable {
 
     @FXML
     private JFXButton cancelButton;
-
+    private Boolean isInEditMode = Boolean.FALSE;
     DataBaseHandler dataBaseHandler;
 
     @Override
@@ -61,8 +63,11 @@ public class AddStaffController implements Initializable {
             alert.showAndWait();
             return;
         }
-
-        String qu = "INSERT INTO stuff (id, firstName, lastName, password) VALUE (" +
+        if (isInEditMode) {
+            handelEditMenuItem();
+            return;
+        }
+        String qu = "INSERT INTO staff (id, firstName, lastName, password) VALUE (" +
                 "'" + sID + "'," +
                 "'" + fName + "'," +
                 "'" + lName + "'," +
@@ -96,5 +101,28 @@ public class AddStaffController implements Initializable {
         password.setText("");
     }
 
+    public void inflateUI(ManageStaffController.Staff staff) {
+        stuffID.setText(staff.getId());
+        firstName.setText(staff.getFirstName());
+        lastName.setText(staff.getLastName());
+        password.setText(staff.getPassword());
+        stuffID.setEditable(false);
+        isInEditMode = Boolean.TRUE;
+    }
 
+    private void handelEditMenuItem() {
+        ManageStaffController.Staff staff = new ManageStaffController.Staff(stuffID.getText(), firstName.getText(), lastName.getText(), password.getText());
+        if (dataBaseHandler.updateStaff(staff)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Menu updated");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setContentText("Failed");
+            alert.showAndWait();
+        }
+    }
 }
+

@@ -1,6 +1,7 @@
 package RMS.dataBase;
 
 import RMS.ui.manageMenu.ManageMenuController;
+import RMS.ui.manageStaff.ManageStaffController;
 import javafx.scene.layout.Pane;
 
 import java.lang.invoke.SwitchPoint;
@@ -62,7 +63,7 @@ public class DataBaseHandler {
     public void setupStaffTable() {
         try {
             stmt = conn.createStatement();
-            stmt.execute(" CREATE TABLE IF NOT EXISTS stuff ("
+            stmt.execute(" CREATE TABLE IF NOT EXISTS staff ("
                     + " id varchar(255) PRIMARY key, \n"
                     + " firstName varchar (255), \n"
                     + " lastName varchar (255), \n"
@@ -127,6 +128,41 @@ public class DataBaseHandler {
 
             PreparedStatement stmt = conn.prepareStatement(update);
             stmt.setString(1, menu.getId());
+            int res = stmt.executeUpdate();
+            System.out.println(res);
+            return true;
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error Occurred", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception at execQuery:dataHandler" + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    // Updating the Staff
+    public boolean updateStaff(ManageStaffController.Staff staff) {
+        try {
+            String update = "UPDATE staff SET firstName= ?, lastName = ?, password = ? WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, staff.getFirstName());
+            stmt.setString(2, staff.getLastName());
+            stmt.setString(3, staff.getPassword());
+            stmt.setString(4, staff.getId());
+            int res = stmt.executeUpdate();
+            return (res > 0);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error Occurred", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception at execQuery:dataHandler" + e.getLocalizedMessage());
+            return false;
+        }
+    }
+
+    // Delete the Staff
+    public boolean DeleteStaff(ManageStaffController.Staff staff) {
+        try {
+            String update = "DELETE FROM staff WHERE id = ?";
+
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, staff.getId());
             int res = stmt.executeUpdate();
             System.out.println(res);
             return true;
