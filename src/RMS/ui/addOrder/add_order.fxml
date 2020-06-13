@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../manageMenu/manage_menu.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RMS.ui.addOrder.AddOrderController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="60.0" prefWidth="906.0" text="New Order&#10;&#10;" textFill="#21b741">
+               <font>
+                  <Font name="System Bold Italic" size="40.0" />
+               </font>
+            </Label>
+            <SplitPane dividerPositions="0.3975501113585746" prefHeight="554.0" prefWidth="900.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="392.0">
+                     <children>
+                        <VBox prefHeight="480.8" prefWidth="354.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="orderTableView" editable="true" prefHeight="382.0" prefWidth="354.0">
+                                 <columns>
+                                    <TableColumn fx:id="oderIdCol" prefWidth="-1.0" text="No" />
+                                    <TableColumn fx:id="oderNameCol" prefWidth="-1.0" text="Name" />
+                                    <TableColumn fx:id="orderQuantityCol" prefWidth="-1.0" text="Quantity" />
+                                    <TableColumn fx:id="orderPriceCol" prefWidth="-1.0" text="Price" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <HBox prefHeight="55.0" prefWidth="354.0">
+                                 <children>
+                                    <Label prefHeight="58.0" prefWidth="102.0" text="Total charge :" />
+                                    <Label fx:id="showTotalCharge" layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="249.0">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="55.0" prefWidth="354.0">
+                                 <children>
+                                    <Label prefHeight="58.0" prefWidth="102.0" text="Staff Name :" />
+                                    <Label fx:id="staffName" layoutX="10.0" layoutY="10.0" prefHeight="58.0" prefWidth="249.0">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="62.0" prefWidth="354.0">
+                                 <children>
+                                    <TextField fx:id="quantityField" prefHeight="62.0" prefWidth="149.0" promptText="Quantity">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                    <JFXButton fx:id="addMenuItem" onAction="#addNewMenuItem" prefHeight="61.0" prefWidth="102.0" text="Add">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="deleteItem" layoutX="160.0" layoutY="10.0" onAction="#deleteMenuItem" prefHeight="61.0" prefWidth="102.0" text="Delete">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="addOrder" layoutX="163.0" layoutY="15.0" onAction="#addOrder" prefHeight="61.0" prefWidth="102.0" text="Order">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+                <AnchorPane prefHeight="482.0" prefWidth="517.0">
+                     <children>
+                        <VBox prefHeight="480.8" prefWidth="538.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TableView fx:id="menuItemTableView" editable="true" prefHeight="551.0" prefWidth="538.0">
+                                 <columns>
+                                    <TableColumn fx:id="idCol" prefWidth="-1.0" text="ID" />
+                                    <TableColumn fx:id="nameCol" prefWidth="-1.0" text="Name" />
+                                    <TableColumn fx:id="priceCol" prefWidth="-1.0" text="Price" />
+                                    <TableColumn fx:id="typeCol" prefWidth="-1.0" text="Type" />
+                                 </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <HBox alignment="CENTER" prefHeight="132.0" prefWidth="900.0">
+                                 <children>
+                                    <JFXButton fx:id="showAllMenu" onAction="#showAllType" prefHeight="79.0" prefWidth="150.0" text="All">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="20.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="showMainMenu" layoutX="10.0" layoutY="10.0" onAction="#showMainType" prefHeight="79.0" prefWidth="150.0" text="Main">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="20.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="showDrinkMenu" layoutX="160.0" layoutY="10.0" onAction="#showDrinkType" prefHeight="79.0" prefWidth="150.0" text="Drink">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="20.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="showAlcoholMenu" layoutX="565.0" layoutY="10.0" onAction="#showAlcoholType" prefHeight="79.0" prefWidth="150.0" text="Alcohol">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="20.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="showDessertMenu" layoutX="433.0" layoutY="20.0" onAction="#showDessertType" prefHeight="79.0" prefWidth="150.0" text="Dessert">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

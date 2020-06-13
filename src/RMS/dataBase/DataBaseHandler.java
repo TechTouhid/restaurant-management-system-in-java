@@ -21,6 +21,7 @@ public class DataBaseHandler {
         createConnection();
         setupMenuTable();
         setupStaffTable();
+        setupOrderTable();
     }
 
     // Changed this so other window can get access to the db at the same time
@@ -68,6 +69,23 @@ public class DataBaseHandler {
                     + " firstName varchar (255), \n"
                     + " lastName varchar (255), \n"
                     + " password varchar (255) \n"
+                    + ")");
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error:" + e.getMessage(), "Error Occurred", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception at execQuery:dataHandler" + e.getLocalizedMessage());
+        }
+    }
+
+    // created the order table
+    public void setupOrderTable() {
+        try {
+            stmt = conn.createStatement();
+            stmt.execute(" CREATE TABLE IF NOT EXISTS order_table ("
+                    + " id INT PRIMARY key NOT NULL AUTO_INCREMENT, \n"
+                    + " staffFirstName varchar (255), \n"
+                    + " staffLastName varchar (255), \n"
+                    + " totalPrice varchar (255) \n"
                     + ")");
 
         } catch (SQLException e) {
