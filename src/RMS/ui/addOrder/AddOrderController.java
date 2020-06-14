@@ -1,7 +1,9 @@
 package RMS.ui.addOrder;
 
 import RMS.dataBase.DataBaseHandler;
+import RMS.ui.manageOrder.ManageOrderController;
 import com.jfoenix.controls.JFXButton;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -23,7 +27,7 @@ import java.util.logging.Logger;
 public class AddOrderController implements Initializable {
     ObservableList<Menu> list = FXCollections.observableArrayList();
     ObservableList<AddItemToOrder> selectedItem = FXCollections.observableArrayList();
-    Double totalCharge = 0.0;
+    double totalAddValue = 0.0;
     @FXML
     private AnchorPane rootPane;
 
@@ -89,7 +93,9 @@ public class AddOrderController implements Initializable {
 
     @FXML
     private JFXButton showDessertMenu;
+
     DataBaseHandler dataBaseHandler;
+    private Boolean isInEditMode = Boolean.FALSE;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,7 +116,7 @@ public class AddOrderController implements Initializable {
     private void loadData(String menuType) {
         list.clear();
         DataBaseHandler handler = DataBaseHandler.getInstance();
-        String qu = "SELECT * FROM menu_item WHERE " + menuType ;
+        String qu = "SELECT * FROM menu_item WHERE " + menuType;
         ResultSet rs = handler.execQuery(qu);
         try {
             while (rs.next()) {
@@ -167,22 +173,46 @@ public class AddOrderController implements Initializable {
     }
 
     private void loadOrderData() {
-       String initID = menuItemTableView.getSelectionModel().getSelectedItem().getId();
-       String initName = menuItemTableView.getSelectionModel().getSelectedItem().getName();
-       String initPrice = menuItemTableView.getSelectionModel().getSelectedItem().getPrice();
-       String initQuantity = quantityField.getText();
+
+        orderTableView.refresh();
+        String initID = menuItemTableView.getSelectionModel().getSelectedItem().getId();
+        String initName = menuItemTableView.getSelectionModel().getSelectedItem().getName();
+        String initPrice = menuItemTableView.getSelectionModel().getSelectedItem().getPrice();
+        String initQuantity = quantityField.getText();
 
         selectedItem.add(new AddItemToOrder(initID, initName, initPrice, initQuantity));
         orderTableView.getItems().setAll(selectedItem);
-        totalCharge += Double.parseDouble(menuItemTableView.getSelectionModel().getSelectedItem().getPrice());
-        showTotalCharge.setText(totalCharge.toString());
+        totalAddValue += Double.parseDouble(quantityField.getText()) * Double.parseDouble(menuItemTableView.getSelectionModel().getSelectedItem().getPrice());
+        showTotalCharge.setText("" + totalAddValue);
+    }
+
+    @FXML
+    void deleteMenuItem(ActionEvent event) {
+        double multiPrice = 0.0;
+        AddItemToOrder myOrder = new AddItemToOrder();
+        myOrder = orderTableView.getSelectionModel().getSelectedItem();
+        if (orderTableView.getSelectionModel().getSelectedIndex() != -1) {
+            selectedItem.remove(orderTableView.getSelectionModel().getSelectedIndex());
+            orderTableView.getSelectionModel().clearSelection();
+            orderTableView.getItems().clear();
+            orderTableView.getItems().addAll(selectedItem);
+            multiPrice = Double.parseDouble(myOrder.getQuantity()) * Double.parseDouble(myOrder.getPrice());
+            totalAddValue = totalAddValue - multiPrice;
+            if (totalAddValue < 0) {
+                totalAddValue = 0.0;
+            }
+            showTotalCharge.setText("" + totalAddValue);
+        }
     }
 
     public static class AddItemToOrder {
-        private final SimpleStringProperty id;
-        private final SimpleStringProperty name;
-        private final SimpleStringProperty price;
-        private final SimpleStringProperty quantity;
+        private SimpleStringProperty id;
+        private SimpleStringProperty name;
+        private SimpleStringProperty price;
+        private SimpleStringProperty quantity;
+
+        public AddItemToOrder() {
+        }
 
         public AddItemToOrder(String id, String name, String price, String quantity) {
             this.id = new SimpleStringProperty(id);
@@ -207,53 +237,86 @@ public class AddOrderController implements Initializable {
             return quantity.get();
         }
     }
+
     @FXML
     void addNewMenuItem(ActionEvent event) {
         loadOrderData();
     }
 
-    @FXML
-    void addOrder(ActionEvent event) {
-        Alert alertx = new Alert(Alert.AlertType.CONFIRMATION);
-        alertx.setHeaderText(null);
-        alertx.setTitle("Deleting Menu Item");
-        alertx.setContentText("Are you sure you want to " + "check out" + " ?");
-        Optional<ButtonType> answer = alertx.showAndWait();
-        if (answer.get() == ButtonType.OK) {
-            String qu = "INSERT INTO order_table (staffFirstName, staffLastName, totalPrice) VALUE (" +
-                    "'" + "admin" + "'," +
-                    "'" + "admin" + "'," +
-                    "'" + showTotalCharge.getText() + "'" +
-                    ")";
-            if (dataBaseHandler.execAction(qu)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
-                alert.setContentText("Order added");
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText(null);
-                alert.setContentText("Failed");
-                alert.showAndWait();
+    public void addAllOrder() {
+        String id_order = "";
+        AddItemToOrder order = new AddItemToOrder();
+        List<List<String>> arrayList = new ArrayList<>();
+        for (int i = 0; i < orderTableView.getItems().size(); i++) {
+            order = orderTableView.getItems().get(i);
+            arrayList.add(new ArrayList<>());
+            arrayList.get(i).add(order.getId());
+            arrayList.get(i).add(order.getName());
+            arrayList.get(i).add(order.getQuantity());
+            arrayList.get(i).add(order.getPrice());
+        }
+        String id_qu = "SELECT id FROM order_table ORDER BY id DESC LIMIT 1";
+        ResultSet rs = dataBaseHandler.execQuery(id_qu);
+        try {
+            while (rs.next()) {
+                id_order = rs.getString("id");
             }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setTitle("Order Failed");
-            alert.setContentText("Order Process Cancelled");
+        } catch (SQLException e) {
+            Logger.getLogger(AddOrderController.class.getName()).log(Level.SEVERE, null, e);
+        }
 
+        for (int i = 0; i < orderTableView.getItems().size(); i++) {
+            String qu = "INSERT INTO edit_order_table (id, name, quantity, price, orderId) VALUE (" +
+                    "'" + arrayList.get(i).get(0) + "'," +
+                    "'" + arrayList.get(i).get(1) + "'," +
+                    "'" + arrayList.get(i).get(2) + "'," +
+                    "'" + arrayList.get(i).get(3) + "'," +
+                    "'" + id_order + "'" +
+                    ")";
+            dataBaseHandler.execAction(qu);
         }
     }
 
-
     @FXML
-    void deleteMenuItem(ActionEvent event) {
-        orderTableView.getItems().remove(orderTableView.getSelectionModel().getSelectedItem());
-        totalCharge -= Double.parseDouble(menuItemTableView.getSelectionModel().getSelectedItem().getPrice());
-        if (totalCharge < 0) {
-            totalCharge = 0.0;
+    void addOrder(ActionEvent event) {
+        if (orderTableView.getItems().size() != 0) {
+            Alert alertx = new Alert(Alert.AlertType.CONFIRMATION);
+            alertx.setHeaderText(null);
+            alertx.setTitle("Adding order");
+            alertx.setContentText("Are you sure you want to " + "check out" + " ?");
+            Optional<ButtonType> answer = alertx.showAndWait();
+            if (answer.get() == ButtonType.OK) {
+                String qu = "INSERT INTO order_table (staffFirstName, staffLastName, totalPrice) VALUE (" +
+                        "'" + "admin" + "'," +
+                        "'" + "admin" + "'," +
+                        "'" + showTotalCharge.getText() + "'" +
+                        ")";
+                if (dataBaseHandler.execAction(qu)) {
+                    addAllOrder();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText(null);
+                    alert.setContentText("Order added");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed");
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("Order Failed");
+                alert.setContentText("Order Process Cancelled");
+
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText("No item in the order list ");
+            alert.showAndWait();
         }
-        showTotalCharge.setText(totalCharge.toString());
     }
 
     @FXML
@@ -281,5 +344,16 @@ public class AddOrderController implements Initializable {
         loadData("menu_type ='Main'");
     }
 
+
+    public void inflateUI(ManageOrderController.Order order) {
+//        menuID.setText(menu.getId());
+//        menuName.setText(menu.getName());
+//        menuPrice.setText(menu.getPrice());
+//        menuType.setValue(menu.getType());
+//        menuID.setEditable(false);
+//        isInEditMode = Boolean.TRUE;
+        System.out.println(orderTableView.getItems());
+        System.out.println(order.getId());
+    }
 
 }
