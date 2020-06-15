@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="stackPaneRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RMS.ui.main.MainController">
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem fx:id="fileCloseMenu" mnemonicParsing="false" onAction="#fileCloseMenuFunc" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <right>
+            <VBox prefHeight="574.0" prefWidth="182.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="showMenuButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#showMenu" prefHeight="86.0" prefWidth="182.0" text="Show Menu">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/menu002.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="orderManageButton" contentDisplay="TOP" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#orderManage" prefHeight="86.0" prefWidth="182.0" text="Order Management">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/OIP.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="manageEmployeeButton" contentDisplay="TOP" layoutX="10.0" layoutY="96.0" mnemonicParsing="false" onAction="#manageEmployee" prefHeight="86.0" prefWidth="182.0" text="Manage Employees">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/Employment.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="manageMenuButton" contentDisplay="TOP" layoutX="10.0" layoutY="183.0" mnemonicParsing="false" onAction="#manageMenu" prefHeight="86.0" prefWidth="182.0" text="Manage Menu Items">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/list_mem.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="showPaymentButton" contentDisplay="TOP" layoutX="10.0" layoutY="269.0" mnemonicParsing="false" onAction="#showPayment" prefHeight="86.0" prefWidth="183.0" text="Show Payments">
+                     <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/payment.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="settingButton" contentDisplay="TOP" layoutX="10.0" layoutY="356.0" mnemonicParsing="false" onAction="#setting" prefHeight="86.0" prefWidth="185.0" text="Seeting">
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/settings.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </right>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="574.4" prefWidth="717.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="102.0" prefWidth="718.0" text="Restaurent Management System" textFill="#16a406">
+                           <font>
+                              <Font name="System Bold Italic" size="40.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="444.0" fitWidth="717.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/burger-3840x21604.jpg" />
+                           </image>
+                        </ImageView>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="88.0" prefWidth="75.0" text="Login as: ">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="loginAs" layoutX="10.0" layoutY="10.0" prefHeight="84.0" prefWidth="612.0">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
