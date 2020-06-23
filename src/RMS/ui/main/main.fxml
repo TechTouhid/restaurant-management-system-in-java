@@ -117,7 +117,7 @@
                <children>
                   <VBox prefHeight="574.4" prefWidth="717.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="102.0" prefWidth="718.0" text="Restaurent Management System" textFill="#16a406">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="102.0" prefWidth="718.0" text="Restaurant Management System" textFill="#16a406">
                            <font>
                               <Font name="System Bold Italic" size="40.0" />
                            </font>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="291.0" prefWidth="436.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RMS.ui.login.LoginController">
+   <children>
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="62.0" prefWidth="486.0" style="-fx-background-color: black; -fx-text-fill: white;" stylesheets="@login.css" text="Restaurant Management System" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="userID" labelFloat="true" layoutX="28.0" layoutY="106.0" prefHeight="26.0" prefWidth="380.0" promptText="USER ID">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXTextField>
+      <JFXPasswordField fx:id="password" labelFloat="true" layoutX="28.0" layoutY="172.0" prefHeight="26.0" prefWidth="380.0" promptText="PASSWORD">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXButton defaultButton="true" layoutX="69.0" layoutY="224.0" onAction="#handelLoginButtonAction" prefHeight="44.0" prefWidth="115.0" stylesheets="@login.css" text="Login" />
+      <JFXButton layoutX="248.0" layoutY="224.0" onAction="#handelCancelButtonAction" prefHeight="44.0" prefWidth="115.0" stylesheets="@login.css" text="Cancel" />
+   </children>
+</AnchorPane>

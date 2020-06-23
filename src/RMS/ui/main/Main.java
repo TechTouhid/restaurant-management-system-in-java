@@ -10,11 +10,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/RMS/ui/main/main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/RMS/ui/login/login.fxml"));
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Restaurant Management System");
+//        primaryStage.setTitle("Restaurant Management System");
+        primaryStage.setTitle("Login");
         primaryStage.show();
         DataBaseHandler.getInstance();
     }

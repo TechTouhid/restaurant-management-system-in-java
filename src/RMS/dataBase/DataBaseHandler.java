@@ -6,12 +6,14 @@ import javafx.scene.layout.Pane;
 
 import java.lang.invoke.SwitchPoint;
 import java.sql.*;
+import java.util.TimeZone;
 import javax.swing.JOptionPane;
 
 public class DataBaseHandler {
 
     private static DataBaseHandler handler = null;
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/rms";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/rms?serverTimezone=" + TimeZone.getDefault().getID();
+
     private static final String DB_USER_NAME = "root";
     private static final String DB_PASSWORD = "";
     private static Connection conn = null;

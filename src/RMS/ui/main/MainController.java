@@ -1,5 +1,7 @@
 package RMS.ui.main;
 
+import RMS.dataBase.DataBaseHandler;
+import RMS.ui.addOrder.AddOrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +17,11 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainController implements Initializable {
     @FXML
@@ -46,10 +51,12 @@ public class MainController implements Initializable {
     @FXML
     private StackPane stackPaneRoot;
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
+
 
     @FXML
     void fileCloseMenuFunc(ActionEvent event) {
@@ -98,4 +105,20 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void transferMessage(String text) {
+        DataBaseHandler handler = DataBaseHandler.getInstance();
+        String qu = "SELECT * FROM `staff` WHERE id =" + "'" + text + "'";
+        ResultSet rs = handler.execQuery(qu);
+        try {
+            while (rs.next()) {
+                String FirstName = rs.getString("firstName");
+                String LastName = rs.getString("lastName");
+                loginAs.setText(FirstName + " " + LastName);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
 }
