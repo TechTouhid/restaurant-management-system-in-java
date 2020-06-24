@@ -4,6 +4,7 @@ import RMS.dataBase.DataBaseHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -42,7 +43,8 @@ public class ListMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCol();
-        loadData();
+        loadData("menu_type = 'Drink' or menu_type ='Main' or menu_type ='Dessert' or menu_type = 'Alcohol'");
+
     }
 
     private void initCol() {
@@ -52,9 +54,10 @@ public class ListMenuController implements Initializable {
         typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
     }
 
-    private void loadData() {
+    private void loadData(String menuType) {
+        list.clear();
         DataBaseHandler handler = DataBaseHandler.getInstance();
-        String qu = "SELECT * FROM menu_item";
+        String qu = "SELECT * FROM menu_item WHERE " + menuType;
         ResultSet rs = handler.execQuery(qu);
         try {
             while (rs.next()) {
@@ -100,5 +103,30 @@ public class ListMenuController implements Initializable {
         public String getType() {
             return type.get();
         }
+    }
+
+    @FXML
+    void showAlcoholType(ActionEvent event) {
+        loadData("menu_type = 'Alcohol'");
+    }
+
+    @FXML
+    void showAllType(ActionEvent event) {
+        loadData("menu_type = 'Drink' or menu_type ='Main' or menu_type ='Dessert' or menu_type = 'Alcohol'");
+    }
+
+    @FXML
+    void showDessertType(ActionEvent event) {
+        loadData("menu_type ='Dessert'");
+    }
+
+    @FXML
+    void showDrinkType(ActionEvent event) {
+        loadData("menu_type = 'Drink'");
+    }
+
+    @FXML
+    void showMainType(ActionEvent event) {
+        loadData("menu_type ='Main'");
     }
 }

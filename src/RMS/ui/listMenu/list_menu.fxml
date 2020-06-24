@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RMS.ui.listMenu.ListMenuController">
    <children>
@@ -28,6 +30,35 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <HBox alignment="CENTER" prefHeight="132.0" prefWidth="900.0" stylesheets="@../addStaff/add_staff.css">
+               <children>
+                  <JFXButton fx:id="showAllMenu" onAction="#showAllType" prefHeight="79.0" prefWidth="150.0" text="All">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="showMainMenu" layoutX="10.0" layoutY="10.0" onAction="#showMainType" prefHeight="79.0" prefWidth="150.0" text="Main">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="showDrinkMenu" layoutX="160.0" layoutY="10.0" onAction="#showDrinkType" prefHeight="79.0" prefWidth="150.0" text="Drink">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="showAlcoholMenu" layoutX="565.0" layoutY="10.0" onAction="#showAlcoholType" prefHeight="79.0" prefWidth="150.0" text="Alcohol">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="showDessertMenu" layoutX="433.0" layoutY="20.0" onAction="#showDessertType" prefHeight="79.0" prefWidth="150.0" text="Dessert">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>
