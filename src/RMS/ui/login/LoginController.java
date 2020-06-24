@@ -1,6 +1,7 @@
 package RMS.ui.login;
 
 import RMS.dataBase.DataBaseHandler;
+import RMS.ui.addOrder.AddOrderController;
 import RMS.ui.listMenu.ListMenuController;
 import RMS.ui.main.MainController;
 import com.jfoenix.controls.JFXPasswordField;
@@ -98,6 +99,7 @@ public class LoginController implements Initializable {
             stage.show();
             MainController mainController = loader.getController();
             mainController.transferMessage(userID.getText());
+
         } catch (IOException e) {
             e.printStackTrace();
         }

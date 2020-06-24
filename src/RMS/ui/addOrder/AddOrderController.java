@@ -1,6 +1,7 @@
 package RMS.ui.addOrder;
 
 import RMS.dataBase.DataBaseHandler;
+import RMS.ui.main.MainController;
 import RMS.ui.manageMenu.ManageMenuController;
 import RMS.ui.manageOrder.ManageOrderController;
 import com.jfoenix.controls.JFXButton;
@@ -33,6 +34,7 @@ public class AddOrderController implements Initializable {
     double totalAddValue = 0.0;
     int getIdGlob = 0;
     private Boolean isInEditMode = Boolean.FALSE;
+    String loginId;
     @FXML
     private AnchorPane rootPane;
 
@@ -100,6 +102,8 @@ public class AddOrderController implements Initializable {
     private JFXButton showDessertMenu;
 
     DataBaseHandler dataBaseHandler;
+    static String FirstNameG;
+    static String LastNameG;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -108,6 +112,9 @@ public class AddOrderController implements Initializable {
         initOrderCol();
         quantityField.setText("1");
         dataBaseHandler = DataBaseHandler.getInstance();
+        staffName.setText(FirstNameG + " " + LastNameG);
+
+
     }
 
     private void initCol() {
@@ -138,6 +145,24 @@ public class AddOrderController implements Initializable {
 
         menuItemTableView.getItems().setAll(list);
     }
+
+    public void manageInfo(String text) {
+        DataBaseHandler handler = DataBaseHandler.getInstance();
+        String qu = "SELECT * FROM `staff` WHERE id =" + "'" + text + "'";
+        ResultSet rs = handler.execQuery(qu);
+        try {
+            while (rs.next()) {
+                String FirstName = rs.getString("firstName");
+                String LastName = rs.getString("lastName");
+
+                FirstNameG = FirstName;
+                LastNameG = LastName;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
 
     public static class Menu {
         private final SimpleStringProperty id;
@@ -177,17 +202,24 @@ public class AddOrderController implements Initializable {
     }
 
     private void loadOrderData() {
+        if (menuItemTableView.getSelectionModel().getSelectedIndex() != -1) {
+            orderTableView.refresh();
+            String initID = menuItemTableView.getSelectionModel().getSelectedItem().getId();
+            String initName = menuItemTableView.getSelectionModel().getSelectedItem().getName();
+            String initPrice = menuItemTableView.getSelectionModel().getSelectedItem().getPrice();
+            String initQuantity = quantityField.getText();
 
-        orderTableView.refresh();
-        String initID = menuItemTableView.getSelectionModel().getSelectedItem().getId();
-        String initName = menuItemTableView.getSelectionModel().getSelectedItem().getName();
-        String initPrice = menuItemTableView.getSelectionModel().getSelectedItem().getPrice();
-        String initQuantity = quantityField.getText();
-
-        selectedItem.add(new AddItemToOrder(initID, initName, initPrice, initQuantity));
-        orderTableView.getItems().setAll(selectedItem);
-        totalAddValue += Double.parseDouble(quantityField.getText()) * Double.parseDouble(menuItemTableView.getSelectionModel().getSelectedItem().getPrice());
-        showTotalCharge.setText("" + totalAddValue);
+            selectedItem.add(new AddItemToOrder(initID, initName, initPrice, initQuantity));
+            orderTableView.getItems().setAll(selectedItem);
+            totalAddValue += Double.parseDouble(quantityField.getText()) * Double.parseDouble(menuItemTableView.getSelectionModel().getSelectedItem().getPrice());
+            showTotalCharge.setText("" + totalAddValue);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText(null);
+            alert.setTitle("Warning");
+            alert.setContentText("Please select an item");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -333,6 +365,7 @@ public class AddOrderController implements Initializable {
             return;
         }
         if (orderTableView.getItems().size() != 0) {
+
             Alert alertx = new Alert(Alert.AlertType.CONFIRMATION);
             alertx.setHeaderText(null);
             alertx.setTitle("Adding order");
@@ -340,8 +373,8 @@ public class AddOrderController implements Initializable {
             Optional<ButtonType> answer = alertx.showAndWait();
             if (answer.get() == ButtonType.OK) {
                 String qu = "INSERT INTO order_table (staffFirstName, staffLastName, totalPrice) VALUE (" +
-                        "'" + "admin" + "'," +
-                        "'" + "admin" + "'," +
+                        "'" + FirstNameG + "'," +
+                        "'" + LastNameG + "'," +
                         "'" + showTotalCharge.getText() + "'" +
                         ")";
                 if (dataBaseHandler.execAction(qu)) {

@@ -2,6 +2,7 @@ package RMS.ui.main;
 
 import RMS.dataBase.DataBaseHandler;
 import RMS.ui.addOrder.AddOrderController;
+import RMS.ui.manageOrder.ManageOrderController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,8 +54,10 @@ public class MainController implements Initializable {
 
 
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 
 
@@ -105,8 +108,7 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    public void transferMessage(String text) {
+    public void transferMessage(String text) { ;
         DataBaseHandler handler = DataBaseHandler.getInstance();
         String qu = "SELECT * FROM `staff` WHERE id =" + "'" + text + "'";
         ResultSet rs = handler.execQuery(qu);
@@ -119,6 +121,12 @@ public class MainController implements Initializable {
         } catch (SQLException e) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         }
+
+        // Transfer the data to Add order Controller
+        AddOrderController addOrderController = new AddOrderController();
+        addOrderController.manageInfo(text);
+
     }
+
 
 }
