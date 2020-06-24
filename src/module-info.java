@@ -31,4 +31,7 @@ module restaurant_management_system_in_java {
     // login
     exports RMS.ui.login to javafx.graphics, javafx.fxml;
     opens RMS.ui.login to javafx.fxml, javafx.base;
+    // payment
+    exports RMS.ui.managePayment to javafx.graphics, javafx.fxml;
+    opens RMS.ui.managePayment to javafx.fxml, javafx.base;
 }

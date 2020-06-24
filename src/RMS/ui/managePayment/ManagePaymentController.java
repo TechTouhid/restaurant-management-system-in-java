@@ -1,20 +1,19 @@
-package RMS.ui.manageOrder;
+package RMS.ui.managePayment;
 
 import RMS.dataBase.DataBaseHandler;
-import RMS.ui.addMenu.AddMenuController;
 import RMS.ui.addOrder.AddOrderController;
-import RMS.ui.listMenu.ListMenuController;
 import RMS.ui.listMenu.MenuListLoader;
-import RMS.ui.manageMenu.ManageMenuController;
 import com.jfoenix.controls.JFXButton;
-import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -28,6 +27,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -35,25 +35,28 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ManageOrderController implements Initializable {
-    ObservableList<Order> orderList = FXCollections.observableArrayList();
+public class ManagePaymentController implements Initializable {
+    ObservableList<PayOrder> orderList = FXCollections.observableArrayList();
     @FXML
     private AnchorPane rootPane;
 
     @FXML
-    private TableView<Order> manegeOrderTable;
+    private TableView<PayOrder> managePaymentTable;
 
     @FXML
-    private TableColumn<Order, Integer> orderIDCol;
+    private TableColumn<PayOrder, Integer> orderIDCol;
 
     @FXML
-    private TableColumn<Order, String> staffFirsNameCol;
+    private TableColumn<PayOrder, String> staffFirsNameCol;
 
     @FXML
-    private TableColumn<Order, String> staffLastNameCol;
+    private TableColumn<PayOrder, String> staffLastNameCol;
 
     @FXML
-    private TableColumn<Order, String> totalPriceCol;
+    private TableColumn<PayOrder, String> totalPriceCol;
+
+    @FXML
+    private TableColumn<PayOrder, String> isPaidCol;
 
     @FXML
     private JFXButton addOrderButton;
@@ -67,6 +70,9 @@ public class ManageOrderController implements Initializable {
     @FXML
     private JFXButton refreshButton;
 
+    @FXML
+    private JFXButton confirmPayButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initCol();
@@ -78,42 +84,53 @@ public class ManageOrderController implements Initializable {
         staffFirsNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         staffLastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         totalPriceCol.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
+        isPaidCol.setCellValueFactory(new PropertyValueFactory<>("isPaid"));
     }
     private void loadData() {
         orderList.clear();
+        String paidValue;
         DataBaseHandler handler = DataBaseHandler.getInstance();
         String qu = "SELECT * FROM order_table";
         ResultSet rs = handler.execQuery(qu);
         try {
             while (rs.next()) {
-                Integer id = rs.getInt("id");
+                int id = rs.getInt("id");
                 String firstName = rs.getString("staffFirstName");
                 String lastName = rs.getString("staffLastName");
                 String totalPrice = rs.getString("totalPrice");
-
-                orderList.add(new Order(id.toString(), firstName,lastName, totalPrice));
+                boolean payInfo = rs.getBoolean("isPaid");
+                if (payInfo) {
+                    paidValue = "Paid";
+                } else {
+                    paidValue = "Not Paid";
+                }
+                orderList.add(new PayOrder(Integer.toString(id), firstName, lastName, totalPrice, paidValue));
             }
 
         } catch (SQLException e) {
-            Logger.getLogger(ManageOrderController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ManagePaymentController.class.getName()).log(Level.SEVERE, null, e);
         }
 
-        manegeOrderTable.getItems().setAll(orderList);
+        managePaymentTable.getItems().setAll(orderList);
     }
-    public static class Order {
+    public static class PayOrder {
         private SimpleStringProperty id;
         private SimpleStringProperty firstName;
         private SimpleStringProperty lastName;
         private SimpleStringProperty totalPrice;
+        private SimpleStringProperty isPaid;
 
-        public Order() {
+        public PayOrder() {
 
         }
-        public Order(String id, String firstName, String lastName, String totalPrice) {
+
+        public PayOrder(String id, String firstName, String lastName, String totalPrice, String isPaid) {
             this.id = new SimpleStringProperty(id);
             this.firstName = new SimpleStringProperty(firstName);
             this.lastName = new SimpleStringProperty(lastName);
             this.totalPrice = new SimpleStringProperty(totalPrice);
+            this.isPaid = new SimpleStringProperty(isPaid);
+
         }
 
         public String getId() {
@@ -131,17 +148,47 @@ public class ManageOrderController implements Initializable {
         public String getTotalPrice() {
             return totalPrice.get();
         }
+
+        public String  getIsPaid() {
+            return isPaid.get();
+        }
     }
 
     @FXML
-    void addNewOrder(ActionEvent event) {
-        loadWindow("/RMS/ui/addOrder/add_order.fxml", "Add New Order");
+    void confirmPay(ActionEvent event) throws SQLException {
+        PayOrder selectedForPay = managePaymentTable.getSelectionModel().getSelectedItem();
+        if (selectedForPay == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("No Order Selected");
+            alert.setContentText("Please Select An Order");
+            alert.showAndWait();
+            return;
+        }
+
+        DataBaseHandler handler = DataBaseHandler.getInstance();
+        String qu = "UPDATE `order_table` SET `isPaid` = " + true + " WHERE id =" + selectedForPay.getId();
+        System.out.println(qu);
+        if (handler.execAction(qu)) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setTitle("Confirmation");
+            alert.setContentText("Payment Confirm");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText("Failed");
+            alert.showAndWait();
+        }
+
     }
 
     @FXML
     void deleteOrder(ActionEvent event) {
-        Order selectedForEdit = manegeOrderTable.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null) {
+        PayOrder selectedForDelete= managePaymentTable.getSelectionModel().getSelectedItem();
+        if (selectedForDelete == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
             alert.setTitle("No Order Selected");
@@ -151,14 +198,14 @@ public class ManageOrderController implements Initializable {
         }
         Alert alertx = new Alert(Alert.AlertType.CONFIRMATION);
         alertx.setHeaderText(null);
-        alertx.setTitle("Deleting Menu Order");
-        alertx.setContentText("Are you sure you want to delete Order " + selectedForEdit.getId() + " ?");
+        alertx.setTitle("Deleting Order");
+        alertx.setContentText("Are you sure you want to delete Order " + selectedForDelete.getId() + " ?");
         Optional<ButtonType> answer = alertx.showAndWait();
         if (answer.get() == ButtonType.OK) {
-            String deleteOrderData = "DELETE FROM edit_order_table WHERE orderId =" + selectedForEdit.getId();
+            String deleteOrderData = "DELETE FROM edit_order_table WHERE orderId =" + selectedForDelete.getId();
             DataBaseHandler.getInstance().execAction(deleteOrderData);
 
-            String deleteOrder = "DELETE FROM order_table WHERE id =" + selectedForEdit.getId();
+            String deleteOrder = "DELETE FROM order_table WHERE id =" + selectedForDelete.getId();
             DataBaseHandler.getInstance().execAction(deleteOrder);
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -175,46 +222,8 @@ public class ManageOrderController implements Initializable {
     }
 
     @FXML
-    void editOrder(ActionEvent event) {
-        Order selectedForEdit = manegeOrderTable.getSelectionModel().getSelectedItem();
-        if (selectedForEdit == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setTitle("No Order Selected");
-            alert.setContentText("Please Select An Order");
-            alert.showAndWait();
-            return;
-        }
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RMS/ui/addOrder/add_order.fxml"));
-            Parent parent = loader.load();
-            AddOrderController controller = (AddOrderController) loader.getController();
-            controller.inflateUI(selectedForEdit);
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("Edit Menu Item");
-            stage.setScene(new Scene(parent));
-            stage.show();
-        } catch (IOException e) {
-            Logger.getLogger(MenuListLoader.class.getName()).log(Level.SEVERE, null, e);
-        }
-
-    }
-
-    @FXML
     void refreshData(ActionEvent event) {
         loadData();
-    }
-    void loadWindow(String loc, String title) {
-        try {
-            Parent parent = FXMLLoader.load(getClass().getResource(loc));
-            Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle(title);
-            stage.setScene(new Scene((parent)));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

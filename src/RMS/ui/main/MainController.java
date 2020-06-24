@@ -94,7 +94,7 @@ public class MainController implements Initializable {
 
     @FXML
     void showPayment(ActionEvent event) {
-
+        loadWindow("/RMS/ui/managePayment/manage_payment.fxml", "Manage Payment");
     }
 
     void loadWindow(String loc, String title) {

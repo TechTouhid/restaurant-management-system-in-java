@@ -88,7 +88,8 @@ public class DataBaseHandler {
                     + " id INT PRIMARY key NOT NULL AUTO_INCREMENT, \n"
                     + " staffFirstName varchar (255), \n"
                     + " staffLastName varchar (255), \n"
-                    + " totalPrice varchar (255) \n"
+                    + " totalPrice varchar (255), \n"
+                    + " isPaid BOOLEAN NOT NULL DEFAULT FALSE \n"
                     + ")");
 
         } catch (SQLException e) {
