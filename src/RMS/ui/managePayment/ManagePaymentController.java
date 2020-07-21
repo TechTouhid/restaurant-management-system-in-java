@@ -168,7 +168,6 @@ public class ManagePaymentController implements Initializable {
 
         DataBaseHandler handler = DataBaseHandler.getInstance();
         String qu = "UPDATE `order_table` SET `isPaid` = " + true + " WHERE id =" + selectedForPay.getId();
-        System.out.println(qu);
         if (handler.execAction(qu)) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(null);
