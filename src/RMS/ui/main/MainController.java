@@ -89,7 +89,7 @@ public class MainController implements Initializable {
 
     @FXML
     void showMenu(ActionEvent event) {
-        loadWindow("/RMS/ui/listMenu/list_menu.fxml", "Manage Employee");
+        loadWindow("/RMS/ui/listMenu/list_menu.fxml", "Menu List");
     }
 
     @FXML
