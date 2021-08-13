@@ -30,46 +30,46 @@ An rms.sql file is also included in the repository if you want you can just impo
 
 Here you can log in with your user id and password.
 
-<img src="documentation/login.PNG" width=70% height=50%>
+<img src="documentation/login.png" width=70% height=50%>
 
 ## Main Screen section
 
 After successful login, you will see the Main Screen with your Name.
 
-<img src="documentation/main_screen.PNG" width=90% height=70%>
+<img src="documentation/main_screen.png" width=90% height=70%>
 
 ## Manage Menu Section
 
 In the manage menu section, you can view added menus and create, update and delete menus too.
 
-<img src="documentation/manage_menus.PNG" width=90% height=70%>
+<img src="documentation/manage_menus.png" width=90% height=70%>
 
 ## Menu List Section
 
 In the Menu List section, you can view all added menus and you can filter them by category example (All, Main, Drink)
 
-<img src="documentation/menu_list.PNG" width=90% height=70%>
+<img src="documentation/menu_list.png" width=90% height=70%>
 
 ## Manage Employee Section
 
 In this section you can manage employees, you can create, update and delete employees
 
-<img src="documentation/manage_employee.PNG" width=90% height=70%>
+<img src="documentation/manage_employee.png" width=90% height=70%>
 
 ## Manage Order Section
 
 In this section you can manage orders, you can create, update and delete orders
 
-<img src="documentation/manage_order.PNG" width=90% height=70%>
+<img src="documentation/manage_order.png" width=90% height=70%>
 
 ## Add Order Section
 
 In this section you can add a new order, you can add an order according to your wish can add and delete the item on the fly you can also add any quantity after adding or deleting the price will be changed automatically.
 
-<img src="documentation/add_new_order.PNG" width=90% height=70%>
+<img src="documentation/add_new_order.png" width=90% height=70%>
 
 ## Manage Payment Section
 
 In this section, you can manage payment. All the payment by default is unpaid so after the customer pays the bill you can confirm the payment and the isPaid section will be shown Paid.
 
-<img src="documentation/payment.PNG" width=90% height=70%>
+<img src="documentation/payment.png" width=90% height=70%>
